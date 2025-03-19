@@ -29,6 +29,7 @@
 *.dylib
 
 # Executables
+calculadora
 *.exe
 *.out
 *.app
@@ -50,3 +51,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+compile_commands.json
