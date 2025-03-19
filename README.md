@@ -12,7 +12,7 @@ Este projeto tem como objetivo explicar como realizar análise estática do cód
     └── calculadora.h
 ```
 
-[![MISRA-C Linting with Clang-Tidy](https://github.com/EmanuelAdler/tutorial-clang-tidy/actions/workflows/linting.yml/badge.svg)](https://github.com/EmanuelAdler/tutorial-clang-tidy/actions/workflows/linting.yml)
+[![MISRA-C Linting with Clang-Tidy](https://github.com/EmanuelAdler/tutorial-clang-tidy/actions/workflows/linting-dev.yml/badge.svg?branch=develop)](https://github.com/EmanuelAdler/tutorial-clang-tidy/actions/workflows/linting-dev.yml)
 
 ## 1. O que é clang-tidy?
 O clang-tidy é uma ferramenta de análise estática de código e lint, parte do ecossistema LLVM/Clang. Ele ajuda a identificar possíveis problemas, bugs, violações de padrões de codificação, entre outros. A vantagem do clang-tidy é a grande variedade de checks disponíveis, incluindo verificações para MISRA-C (um conjunto de regras de codificação seguro e confiável para C).
