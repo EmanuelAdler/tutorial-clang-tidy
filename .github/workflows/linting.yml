@@ -1,0 +1,27 @@
+name: MISRA-C Linting with Clang-Tidy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy bear
+
+      - name: Generate compile_commands.json with Bear
+        run: |
+          make clean
+          bear make
+
+      - name: Run Clang-Tidy on Source Files
+        run: clang-tidy src/*.c -p .
