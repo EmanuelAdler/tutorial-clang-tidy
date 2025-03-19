@@ -12,6 +12,8 @@ Este projeto tem como objetivo explicar como realizar análise estática do cód
     └── calculadora.h
 ```
 
+[![MISRA-C Linting with Clang-Tidy](https://github.com/EmanuelAdler/tutorial-clang-tidy/actions/workflows/linting.yml/badge.svg)](https://github.com/EmanuelAdler/tutorial-clang-tidy/actions/workflows/linting.yml)
+
 ## 1. O que é clang-tidy?
 O clang-tidy é uma ferramenta de análise estática de código e lint, parte do ecossistema LLVM/Clang. Ele ajuda a identificar possíveis problemas, bugs, violações de padrões de codificação, entre outros. A vantagem do clang-tidy é a grande variedade de checks disponíveis, incluindo verificações para MISRA-C (um conjunto de regras de codificação seguro e confiável para C).
 
@@ -63,7 +65,7 @@ Quando seu projeto não utiliza CMake (como é o caso aqui, que usa um Makefile 
 2. Na pasta raiz do seu projeto (onde está o `Makefile`), execute:
    ```bash
    make clean
-   bear make
+   bear -- make
    ```
    - O `make clean` garante que você force a recompilação de todos os arquivos.
    - O comando `bear make` irá compilar o projeto e, simultaneamente, gerar um arquivo `compile_commands.json` na raiz do projeto.
@@ -126,13 +128,64 @@ src/calculadora.c:10:5: error: ...
 - `error:` indica o tipo de mensagem (nesse caso, um *warning* promovido a erro).
 - A descrição detalhada informará qual regra ou qual *check* foi violado.
 
-## 7. Dicas de boas práticas
+## 7. Integração com GitHub Actions
+
+Você pode automatizar a análise estática do código usando o clang-tidy via GitHub Actions. Para isso, siga as instruções abaixo.
+
+### Configuração do workflow
+
+Crie um arquivo em `.github/workflows/linting.yml` com o conteúdo abaixo:
+
+```yaml
+name: MISRA-C Linting with Clang-Tidy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make clang-tidy bear
+
+      - name: Generate compile_commands.json with Bear
+        run: |
+          make clean
+          bear -- make
+
+      - name: Run Clang-Tidy on Source Files
+        run: clang-tidy src/*.c -p .
+```
+
+### Como funciona?
+
+- **Acionamento (Trigger):**  
+  O workflow é disparado em cada push na branch `main`.
+
+- **Etapas do Workflow:**  
+  1. **Checkout Code:** Faz o checkout do repositório, garantindo que o arquivo `.clang-tidy` (já versionado) esteja presente.  
+  2. **Install Dependencies:** Instala o Make, clang-tidy e o Bear.  
+  3. **Generate compile_commands.json with Bear:** Executa o comando `make clean` e, em seguida, utiliza o Bear para gerar o arquivo `compile_commands.json`, que é necessário para o clang-tidy saber como compilar os arquivos.  
+  4. **Run Clang-Tidy on Source Files:** Roda o clang-tidy analisando todos os arquivos C na pasta `src/`, utilizando as configurações definidas no arquivo `.clang-tidy`.
+
+Com essa configuração, o seu projeto passará por uma análise estática a cada push na branch `main`, garantindo que as regras MISRA-C e demais verificações sejam aplicadas automaticamente.
+
+## 8. Dicas de boas práticas
 
 - **Mantenha o arquivo `.clang-tidy` versionado** no repositório, para que todos os colaboradores usem as mesmas regras de verificação.
 - **Integre o clang-tidy no seu fluxo de CI/CD**: é comum configurar pipelines para rodar clang-tidy a cada *push* ou *merge request*, garantindo que o código atenda aos padrões de qualidade e segurança.
 - **Não ignore os avisos**: mesmo que sejam apenas *warnings*, podem indicar problemas reais que levarão a *bugs* ou comportamentos indesejados no futuro.
 
-## 8. Conclusão
+## 9. Conclusão
 
 Usar o clang-tidy com as regras MISRA-C é uma excelente forma de melhorar a qualidade, segurança e confiabilidade do seu código C. Seguindo os passos acima, você terá:
 
@@ -140,5 +193,6 @@ Usar o clang-tidy com as regras MISRA-C é uma excelente forma de melhorar a qua
 2. Configurado o arquivo `.clang-tidy` com as regras desejadas (MISRA, readability, bugprone, etc.).
 3. Gerado o `compile_commands.json` (usando Bear) ou fornecido manualmente as flags de compilação.
 4. Executado a análise com `clang-tidy` e interpretado os resultados.
+5. Integrado a análise automática com `clang-tidy` via Github Actions a cada push na branch main.
 
 Com isso, você terá uma base sólida para evoluir seu projeto de calculadora (ou qualquer outro em C) mantendo boas práticas de codificação e conformidade com padrões de segurança.
