@@ -1,29 +1,31 @@
 #include <stdio.h>
 #include "calculadora.h"
 
-float soma(float a, float b) {
-    return a + b;
+float soma(float primeira_parcela, float segunda_parcela) {
+    return primeira_parcela + segunda_parcela;
 }
 
-float subtrai(float a, float b) {
-    return a - b;
+float subtrai(float adtivo, float subtrativo) {
+    return adtivo - subtrativo;
 }
 
-float multiplica(float a, float b) {
-    return a * b;
+float multiplica(float primeiro_fator, float segundo_fator) {
+    return primeiro_fator * segundo_fator;
 }
 
-float divide(float a, float b) {
-    if(b == 0) {
+float divide(float dividendo, float divisor) {
+    if(divisor == 0) {
         printf("Erro: Divisão por zero!\n");
         return 0;
     }
-    return a / b;
+    return dividendo / divisor;
 }
 
 int main() {
     int opcao;
-    float a, b, resultado;
+    float primeiro_numero;
+    float segundo_numero;
+    float resultado;
     
     do {
         printf("\nCalculadora Simples\n");
@@ -46,26 +48,29 @@ int main() {
         }
         
         printf("Digite o primeiro número: ");
-        scanf("%f", &a);
+        scanf("%f", &primeiro_numero);
         printf("Digite o segundo número: ");
-        scanf("%f", &b);
+        scanf("%f", &segundo_numero);
         
         switch(opcao) {
             case 1:
-                resultado = soma(a, b);
+                resultado = soma(primeiro_numero, segundo_numero);
                 printf("Resultado: %.2f\n", resultado);
                 break;
             case 2:
-                resultado = subtrai(a, b);
+                resultado = subtrai(primeiro_numero, segundo_numero);
                 printf("Resultado: %.2f\n", resultado);
                 break;
             case 3:
-                resultado = multiplica(a, b);
+                resultado = multiplica(primeiro_numero, segundo_numero);
                 printf("Resultado: %.2f\n", resultado);
                 break;
             case 4:
-                resultado = divide(a, b);
+                resultado = divide(primeiro_numero, segundo_numero);
                 printf("Resultado: %.2f\n", resultado);
+                break;
+            default:
+                printf("Operação inválida! Tente novamente.\n");
                 break;
         }
     } while(1);
