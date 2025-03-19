@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang-tidy bear
+          sudo apt-get install -y make clang-tidy bear
 
       - name: Generate compile_commands.json with Bear
         run: |
