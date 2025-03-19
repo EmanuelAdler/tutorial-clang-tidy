@@ -21,7 +21,7 @@ jobs:
       - name: Generate compile_commands.json with Bear
         run: |
           make clean
-          bear make
+          bear -- make
 
       - name: Run Clang-Tidy on Source Files
         run: clang-tidy src/*.c -p .
