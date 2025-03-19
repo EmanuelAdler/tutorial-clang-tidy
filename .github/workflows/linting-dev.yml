@@ -3,7 +3,7 @@ name: MISRA-C Linting with Clang-Tidy
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   lint:
