@@ -68,7 +68,7 @@ Quando seu projeto não utiliza CMake (como é o caso aqui, que usa um Makefile 
    bear -- make
    ```
    - O `make clean` garante que você force a recompilação de todos os arquivos.
-   - O comando `bear make` irá compilar o projeto e, simultaneamente, gerar um arquivo `compile_commands.json` na raiz do projeto.
+   - O comando `bear -- make` irá compilar o projeto e, simultaneamente, gerar um arquivo `compile_commands.json` na raiz do projeto.
 
 Verifique se o arquivo `compile_commands.json` foi criado com sucesso. Ele deve conter as linhas de compilação de cada arquivo `.c` do seu projeto.
 
